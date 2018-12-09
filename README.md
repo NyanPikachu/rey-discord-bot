@@ -1,1 +1,1 @@
-# HelloBitGame
+# BrawlStarRey's discord bot
