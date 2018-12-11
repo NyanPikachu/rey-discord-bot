@@ -7,7 +7,7 @@ import requests
 import json
 from ext import utils
 
-class BrawlStats:
+class BrawlStars:
     '''Brawl Stars commands to get your brawling stats on demand!'''
     def __init__(self, bot):
         self.bot = bot
@@ -74,4 +74,4 @@ class BrawlStats:
         await ctx.send(embed=em)
 
 def setup(bot):
-    bot.add_cog(Clash_Royale(bot))
+    bot.add_cog(BrawlStars(bot))
