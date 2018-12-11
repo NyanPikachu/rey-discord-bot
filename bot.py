@@ -7,8 +7,8 @@ import requests
 import json
 from ext import utils
 
-dbclient = motor_asyncio.AsyncIOMotorClient('mongodb://brawlstats:' + os.environ.get("DBPASS") + '@ds255329.mlab.com:55329/hellobitgame')
-db = dbclient.hellobitgame
+dbclient = motor_asyncio.AsyncIOMotorClient('mongodb://brawlstats:' + os.environ.get('DBPASS') + '@ds115740.mlab.com:15740/brawlstats')
+db = dbclient.brawlstats
 
 async def get_pre(bot, message):
     try:

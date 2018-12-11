@@ -11,12 +11,18 @@ class BrawlStats:
     '''Brawl Stars commands to get your brawling stats on demand!'''
     def __init__(self, bot):
         self.bot = bot
-        self.token = (os.environ.get('BSTOKEN'))
         self.dbclient = motor_asyncio.AsyncIOMotorClient('mongodb://brawlstats:' + os.environ.get('DBPASS') + '@ds115740.mlab.com:15740/brawlstats')
         self.db = self.dbclient.brawlstats
+        
+    headers = {
+        "Authorization": os.environ.get("BSTOKEN")
+        }
+    def get_info(self, tag):
+        r = requests.get(f'https://brawlapi.cf/api/players/{tag}', headers=headers)
+        req = r.json()
 
-    async def save_tag(tag, userID):
-    	await db.brawlstats.update_one({'_id': userID}, {'$set': {'_id': userID, 'tag': tag}}, upsert=True)
+    async def save_tag(self, tag, userID):
+        await db.brawlstats.update_one({'_id': userID}, {'$set': {'_id': userID, 'tag': tag}}, upsert=True)
 
     async def get_tag(self, authorID):
         result = await self.db.clashroyale.find_one({'_id': authorID})
@@ -46,8 +52,26 @@ class BrawlStats:
         authorID = str(ctx.author.id)
         if not tag:
             if await self.get_tag(authorID) == 'None':
-                await ctx.send(f'Please provide a tag or save your tag using `{ctx.prefix}crsave <tag>`')
+                await ctx.send(f'Please provide a tag or save your tag using `{ctx.prefix}bssave <tag>`')
             tag = await self.get_tag(authorID)
+        data = self.get_info(tag)
+        em = discord.Embed(color=utils.random_color())
+        em.title = data["name"] + "'s info"
+        em.description = data["tag"]
+        em.add_field(name="Trophies", value data["trophies"])
+        em.add_field(name="Highest Trophies", value data["highestTrophies"])
+        em.add_field(name="3v3 Victories", value data["victories"])
+        em.add_field(name="Showdown Victories", value data["soloShowdownVictories"])
+        em.add_field(name="Duo Showdown victories", value data["duoShowdownVictories"])
+        em.add_field(name="Level", value data["expLevel"])
+        em.add_field(name="Experience", value data["expFmt"])
+        em.add_field(name="Total Experience", value data["totalExp"])
+        em.add_field(name="Brawlers", value data["brawlersUnlocked"])
+        em.add_field(name="Best time as The Boss", value data["bestTimeAsBoss"])
+        em.add_field(name="Best Robo Rumble Time", value data["bestRoboRumbleTime"])
+        em.add_field(name="Club", value data["club"]["name"])
+        
+        await ctx.send(embed=em)
 
 def setup(bot):
     bot.add_cog(Clash_Royale(bot))
