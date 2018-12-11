@@ -63,7 +63,7 @@ class BrawlStars:
         try:
             data["club"]["name"]
         except:
-            hasClub = false 
+            hasClub = False 
             
         embeds = []
         
@@ -115,7 +115,8 @@ class BrawlStars:
         try:
             data["club"]["name"]
         except:
-            hasClub = false
+            hasClub = False
+        
         if hasClub:
             em = discord.Embed(color=utils.random_color())
             em.set_thumbnail(url=data["club"]["badgeUrl"])
