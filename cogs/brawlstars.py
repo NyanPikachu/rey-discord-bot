@@ -56,7 +56,7 @@ class BrawlStars:
             tag = await self.get_tag(authorID)
         data = self.get_info(tag)
         em = discord.Embed(color=utils.random_color())
-        em.title = {data["name"]}
+        em.title = data["name"]
         em.description = data["tag"]
         em.add_field(name="Trophies", value=data["trophies"])
         em.add_field(name="Highest Trophies", value=data["highestTrophies"])
