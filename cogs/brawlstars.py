@@ -94,7 +94,7 @@ class BrawlStars:
             em.add_field(name="Members", value=data["club"]["members"])
             em.add_field(name="Trophies", value=data["club"]["trophies"])
             em.add_field(name="Required Trophies", value=data["club"]["requiredTrophies"])
-            em.add_field(name="Online Members", value=f'There are data' + data["club"]["onlineMembers"] + 'online!')
+            em.add_field(name="Online Members", value=f'There are data' + str(data["club"]["onlineMembers"]) + 'online!')
             embeds.append(em)
         
         p_session = Paginator(ctx, footer=f'Made by Parzival#4148', pages=embeds)
