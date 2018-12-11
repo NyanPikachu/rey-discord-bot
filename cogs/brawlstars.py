@@ -47,7 +47,7 @@ class BrawlStats:
         await ctx.send(f'Your tag `#{tag}` has been successfully saved')
 
     @commands.command()
-    async def bsprofile(self, ctx, tag: str=None, user: discord.Member):
+    async def bsprofile(self, ctx, tag: str=None):
         '''Gets your Brawl Stars Profile using a Tag'''
         authorID = str(ctx.author.id)
         if not tag:
