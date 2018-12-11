@@ -100,5 +100,35 @@ class BrawlStars:
         p_session = Paginator(ctx, footer=f'Made by Parzival#4148', pages=embeds)
         await p_session.run()
         
+    @commands.command()
+    async def bsclub(self, ctx, tag: str=None):
+        '''Gets your Brawl Stars Club info using a Tag'''
+        authorID = str(ctx.author.id)
+        if not tag:
+            if await self.get_tag(authorID) == 'None':
+                await ctx.send(f'Please provide a tag or save your tag using `{ctx.prefix}bssave <tag>`')
+            tag = await self.get_tag(authorID)
+        data = self.get_info(tag)
+        
+        hasClub = True
+        
+        try:
+            data["club"]["name"]
+        except:
+            hasClub = false
+        if hasClub:
+            em = discord.Embed(color=utils.random_color())
+            em.set_thumbnail(url=data["club"]["badgeUrl"])
+            em.add_field(name="Club", value=data["club"]["name"])
+            em.add_field(name="Club Tag", value=data["bestRoboRumbleTime"])
+            em.add_field(name="Role", value=data["club"]["role"])
+            em.add_field(name="Members", value=data["club"]["members"])
+            em.add_field(name="Trophies", value=data["club"]["trophies"])
+            em.add_field(name="Required Trophies", value=data["club"]["requiredTrophies"])
+            em.add_field(name="Online Members", value=f'There are data' + str(data["club"]["onlineMembers"]) + 'online!')
+            await ctx.send(embed=em)
+        else:
+            await ctx.send("Oops, looks like you are not in a club yet! Consider joining one. They are great for finding a Team")
+        
 def setup(bot):
     bot.add_cog(BrawlStars(bot))
