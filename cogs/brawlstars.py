@@ -13,12 +13,12 @@ class BrawlStars:
         self.bot = bot
         self.dbclient = motor_asyncio.AsyncIOMotorClient('mongodb://nyanpikachu:' + os.environ.get('DBPASS') + '@ds115740.mlab.com:15740/brawlstats')
         self.db = self.dbclient.brawlstats
-        
-    headers = {
-        "Authorization": os.environ.get("BSTOKEN")
-        }
+        self.headers = {
+            "Authorization": os.environ.get("BSTOKEN")
+            }
+            
     def get_info(self, tag):
-        r = requests.get(f'https://brawlapi.cf/api/players/{tag}', headers=headers)
+        r = requests.get(f'https://brawlapi.cf/api/players/{tag}', headers=self.headers)
         req = r.json()
 
     async def save_tag(self, tag, userID):
