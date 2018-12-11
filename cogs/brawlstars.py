@@ -6,6 +6,7 @@ from motor import motor_asyncio
 import requests
 import json
 from ext import utils
+from ext.paginator import Paginator
 
 class BrawlStars:
     '''Brawl Stars commands to get your brawling stats on demand!'''
@@ -23,7 +24,7 @@ class BrawlStars:
         return req
 
     async def save_tag(self, tag, userID):
-        await db.brawlstats.update_one({'_id': userID}, {'$set': {'_id': userID, 'tag': tag}}, upsert=True)
+        await self.db.brawlstats.update_one({'_id': userID}, {'$set': {'_id': userID, 'tag': tag}}, upsert=True)
 
     async def get_tag(self, authorID):
         result = await self.db.clashroyale.find_one({'_id': authorID})
@@ -56,7 +57,18 @@ class BrawlStars:
                 await ctx.send(f'Please provide a tag or save your tag using `{ctx.prefix}bssave <tag>`')
             tag = await self.get_tag(authorID)
         data = self.get_info(tag)
+        
+        hasClub = True
+        
+        try:
+            data["club"]["name"]
+        except:
+            hasClub = false 
+            
+        embeds = []
+        
         em = discord.Embed(color=utils.random_color())
+        em.set_thumbnail(url=data["avatarUrl"])
         em.title = data["name"]
         em.description = data["tag"]
         em.add_field(name="Trophies", value=data["trophies"])
@@ -71,8 +83,22 @@ class BrawlStars:
         em.add_field(name="Best time as The Boss", value=data["bestTimeAsBoss"])
         em.add_field(name="Best Robo Rumble Time", value=data["bestRoboRumbleTime"])
         em.add_field(name="Club", value=data["club"]["name"])
+        embeds.append(em)
         
-        await ctx.send(embed=em)
-
+        if hasClub:
+            em = discord.Embed(color=utils.random_color())
+            em.set_thumbnail(url=data["clan"]["badgeUrl"])
+            em.add_field(name="Club", value=data["club"]["name"])
+            em.add_field(name="Club Tag", value=data["bestRoboRumbleTime"])
+            em.add_field(name="Role", value=data["club"]["role"])
+            em.add_field(name="Members", value=data["club"]["members"])
+            em.add_field(name="Trophies", value=data["club"]["trophies"])
+            em.add_field(name="Required Trophies", value=data["club"]["requiredTrophies"])
+            em.add_field(name="Online Members", value=f'There are data["club"]["onlineMembers"] online!')
+            embeds.append(em)
+        
+        p_session = Paginator(ctx, footer=f'Made by Parzival#4148', pages=embeds)
+        await p_session.run()
+        
 def setup(bot):
     bot.add_cog(BrawlStars(bot))
