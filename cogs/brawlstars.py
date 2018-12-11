@@ -11,7 +11,7 @@ class BrawlStars:
     '''Brawl Stars commands to get your brawling stats on demand!'''
     def __init__(self, bot):
         self.bot = bot
-        self.dbclient = motor_asyncio.AsyncIOMotorClient('mongodb://brawlstats:' + os.environ.get('DBPASS') + '@ds115740.mlab.com:15740/brawlstats')
+        self.dbclient = motor_asyncio.AsyncIOMotorClient('mongodb://nyanpikachu:' + os.environ.get('DBPASS') + '@ds115740.mlab.com:15740/brawlstats')
         self.db = self.dbclient.brawlstats
         
     headers = {
