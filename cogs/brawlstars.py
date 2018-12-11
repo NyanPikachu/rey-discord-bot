@@ -27,7 +27,7 @@ class BrawlStars:
         await self.db.brawlstats.update_one({'_id': userID}, {'$set': {'_id': userID, 'tag': tag}}, upsert=True)
 
     async def get_tag(self, authorID):
-        result = await self.db.clashroyale.find_one({'_id': authorID})
+        result = await self.db.brawlstats.find_one({'_id': authorID})
         if not result:
             return 'None'
         return result['tag']
@@ -87,14 +87,14 @@ class BrawlStars:
         
         if hasClub:
             em = discord.Embed(color=utils.random_color())
-            em.set_thumbnail(url=data["clan"]["badgeUrl"])
+            em.set_thumbnail(url=data["club"]["badgeUrl"])
             em.add_field(name="Club", value=data["club"]["name"])
             em.add_field(name="Club Tag", value=data["bestRoboRumbleTime"])
             em.add_field(name="Role", value=data["club"]["role"])
             em.add_field(name="Members", value=data["club"]["members"])
             em.add_field(name="Trophies", value=data["club"]["trophies"])
             em.add_field(name="Required Trophies", value=data["club"]["requiredTrophies"])
-            em.add_field(name="Online Members", value=f'There are data["club"]["onlineMembers"] online!')
+            em.add_field(name="Online Members", value=f'There are data {["club"]["onlineMembers"]} online!')
             embeds.append(em)
         
         p_session = Paginator(ctx, footer=f'Made by Parzival#4148', pages=embeds)
