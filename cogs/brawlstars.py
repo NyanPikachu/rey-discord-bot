@@ -20,6 +20,7 @@ class BrawlStars:
     def get_info(self, tag):
         r = requests.get(f'https://brawlapi.cf/api/players/{tag}', headers=self.headers)
         req = r.json()
+        return req
 
     async def save_tag(self, tag, userID):
         await db.brawlstats.update_one({'_id': userID}, {'$set': {'_id': userID, 'tag': tag}}, upsert=True)
@@ -56,8 +57,7 @@ class BrawlStars:
             tag = await self.get_tag(authorID)
         data = self.get_info(tag)
         em = discord.Embed(color=utils.random_color())
-        em.title = data["name"]
-        em.description = data["tag"]
+        em.title = data["name"]        em.description = data["tag"]
         em.add_field(name="Trophies", value=data["trophies"])
         em.add_field(name="Highest Trophies", value=data["highestTrophies"])
         em.add_field(name="3v3 Victories", value=data["victories"])
