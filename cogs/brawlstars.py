@@ -55,7 +55,7 @@ class BrawlStars:
         ticketedEvent = True
 
         try:
-            data = data["current"][0]["gameMode"]
+            data["current"][4]["gameMode"]
         except:
             ticketedEvent = False
 
