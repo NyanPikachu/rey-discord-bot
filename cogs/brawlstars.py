@@ -62,6 +62,7 @@ class BrawlStars:
         embeds = []
 
         em = discord.Embed(color=utils.random_color())
+        em.title = data["current"][0]["slotName"]
         em.set_image(url=data["current"][0]["mapImageUrl"])
         em.add_field(name='Event Name', value=data["current"][0]["gameMode"])
         em.add_field(name='Slot Number', value=data["current"][0]["slot"])
@@ -71,6 +72,7 @@ class BrawlStars:
 
         em = discord.Embed(color=utils.random_color())
         em.set_image(url=data["current"][1]["mapImageUrl"])
+        em.title = data["current"][1]["slotName"]
         em.add_field(name='Event Name', value=data["current"][1]["gameMode"])
         em.add_field(name='Slot Number', value=data["current"][1]["slot"])
         em.add_field(name='Map', value=data["current"][1]["mapName"])
@@ -79,6 +81,7 @@ class BrawlStars:
 
         em = discord.Embed(color=utils.random_color())
         em.set_image(url=data["current"][2]["mapImageUrl"])
+        em.title = data["current"][2]["slotName"]
         em.add_field(name='Event Name', value=data["current"][2]["gameMode"])
         em.add_field(name='Slot Number', value=data["current"][2]["slot"])
         em.add_field(name='Map', value=data["current"][2]["mapName"])
@@ -87,6 +90,7 @@ class BrawlStars:
 
         em = discord.Embed(color=utils.random_color())
         em.set_image(url=data["current"][3]["mapImageUrl"])
+        em.title = data["current"][3]["slotName"]
         em.add_field(name='Event Name', value=data["current"][3]["gameMode"])
         em.add_field(name='Slot Number', value=data["current"][3]["slot"])
         em.add_field(name='Map', value=data["current"][3]["mapName"])
@@ -96,6 +100,7 @@ class BrawlStars:
         if ticketedEvent:
             em = discord.Embed(color=utils.random_color())
             em.set_image(url=data["current"][4]["mapImageUrl"])
+            em.title = data["current"][4]["slotName"]
             em.add_field(name='Event Name', value=data["current"][4]["gameMode"])
             em.add_field(name='Slot Number', value=data["current"][4]["slot"])
             em.add_field(name='Map', value=data["current"][4]["mapName"])
@@ -173,7 +178,7 @@ class BrawlStars:
         authorID = str(ctx.author.id)
         if not tag:
             if await self.get_tag(authorID) == 'None':
-                await ctx.send(f'Please provide a tag or save your tag using `{ctx.prefix}bssave <tag>`')
+                return await ctx.send(f'Please provide a tag or save your tag using `{ctx.prefix}bssave <tag>`')
             tag = await self.get_tag(authorID)
         data = self.get_info(tag)
         
