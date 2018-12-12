@@ -23,6 +23,16 @@ class BrawlStars:
         req = r.json()
         return req
 
+    def get_all_events(self):
+        r = requests.get(f'https://brawlapi.cf/api/events', headers=self.headers)
+        req = r.json()
+        return req
+
+    def get_events(self, type):
+        r = requests.get(f'https://brawlapi.cf/api/events', headers=self.headers)
+        req = r.json()
+        return req
+
     async def save_tag(self, tag, userID):
         await self.db.brawlstats.update_one({'_id': userID}, {'$set': {'_id': userID, 'tag': tag}}, upsert=True)
 
@@ -39,6 +49,63 @@ class BrawlStars:
         return self.bot.get_emoji(e)
 
     @commands.command()
+    async def bsevents(self, ctx):
+        data = self.get_all_events()
+
+        ticketedEvent = True
+
+        try:
+            data = data["current"][0]["gameMode"]
+        except:
+            ticketedEvent = False
+
+        embeds = []
+
+        em = discord.Embed(color=utils.random_color())
+        em.set_image(url=data["current"][0]["mapImageUrl"])
+        em.add_field(name='Event Name', value=data["current"][0]["gameMode"])
+        em.add_field(name='Slot Number', value=data["current"][0]["slot"])
+        em.add_field(name='Map', value=data["current"][0]["mapName"])
+        em.add_field(name='Free Keys', value=data["current"][0]["freeKeys"])
+        embed.append(em)
+
+        em = discord.Embed(color=utils.random_color())
+        em.set_image(url=data["current"][1]["mapImageUrl"])
+        em.add_field(name='Event Name', value=data["current"][1]["gameMode"])
+        em.add_field(name='Slot Number', value=data["current"][1]["slot"])
+        em.add_field(name='Map', value=data["current"][1]["mapName"])
+        em.add_field(name='Free Keys', value=data["current"][1]["freeKeys"])
+        embed.append(em)
+
+        em = discord.Embed(color=utils.random_color())
+        em.set_image(url=data["current"][2]["mapImageUrl"])
+        em.add_field(name='Event Name', value=data["current"][2]["gameMode"])
+        em.add_field(name='Slot Number', value=data["current"][2]["slot"])
+        em.add_field(name='Map', value=data["current"][2]["mapName"])
+        em.add_field(name='Free Keys', value=data["current"][2]["freeKeys"])
+        embed.append(em)
+
+        em = discord.Embed(color=utils.random_color())
+        em.set_image(url=data["current"][3]["mapImageUrl"])
+        em.add_field(name='Event Name', value=data["current"][3]["gameMode"])
+        em.add_field(name='Slot Number', value=data["current"][3]["slot"])
+        em.add_field(name='Map', value=data["current"][3]["mapName"])
+        em.add_field(name='Free Keys', value=data["current"][3]["freeKeys"])
+        embed.append(em)
+
+        if ticketedEvent:
+            em = discord.Embed(color=utils.random_color())
+            em.set_image(url=data["current"][4]["mapImageUrl"])
+            em.add_field(name='Event Name', value=data["current"][4]["gameMode"])
+            em.add_field(name='Slot Number', value=data["current"][4]["slot"])
+            em.add_field(name='Map', value=data["current"][4]["mapName"])
+            em.add_field(name='Free Keys', value=data["current"][4]["freeKeys"])
+            embed.append(em)
+
+        p_session = Paginator(ctx, footer=f'Made by Parzival#4148', pages=embeds)
+        await p_session.run()
+        
+    @commands.command()
     async def bssave(self, ctx, tag=None):
         """Save your Brawl Stars tag"""
         authorID = str(ctx.author.id)
@@ -54,7 +121,7 @@ class BrawlStars:
         authorID = str(ctx.author.id)
         if not tag:
             if await self.get_tag(authorID) == 'None':
-                await ctx.send(f'Please provide a tag or save your tag using `{ctx.prefix}bssave <tag>`')
+                return await ctx.send(f'Please provide a tag or save your tag using `{ctx.prefix}bssave <tag>`')
             tag = await self.get_tag(authorID)
         data = self.get_info(tag)
         
