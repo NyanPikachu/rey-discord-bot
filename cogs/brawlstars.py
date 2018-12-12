@@ -94,7 +94,7 @@ class BrawlStars:
         em.add_field(name='Event Name', value=data["current"][3]["gameMode"])
         em.add_field(name='Slot Number', value=data["current"][3]["slot"])
         em.add_field(name='Map', value=data["current"][3]["mapName"])
-        em.add_field(name="Modifier", value=data["current"][4]["modifierName"])
+        em.add_field(name="Modifier", value=data["current"][3]["modifierName"])
         em.add_field(name='Free Keys', value=data["current"][3]["freeKeys"])
         embeds.append(em)
 
