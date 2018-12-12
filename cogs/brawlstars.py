@@ -67,7 +67,7 @@ class BrawlStars:
         em.add_field(name='Slot Number', value=data["current"][0]["slot"])
         em.add_field(name='Map', value=data["current"][0]["mapName"])
         em.add_field(name='Free Keys', value=data["current"][0]["freeKeys"])
-        embed.append(em)
+        embeds.append(em)
 
         em = discord.Embed(color=utils.random_color())
         em.set_image(url=data["current"][1]["mapImageUrl"])
@@ -75,7 +75,7 @@ class BrawlStars:
         em.add_field(name='Slot Number', value=data["current"][1]["slot"])
         em.add_field(name='Map', value=data["current"][1]["mapName"])
         em.add_field(name='Free Keys', value=data["current"][1]["freeKeys"])
-        embed.append(em)
+        embeds.append(em)
 
         em = discord.Embed(color=utils.random_color())
         em.set_image(url=data["current"][2]["mapImageUrl"])
@@ -83,7 +83,7 @@ class BrawlStars:
         em.add_field(name='Slot Number', value=data["current"][2]["slot"])
         em.add_field(name='Map', value=data["current"][2]["mapName"])
         em.add_field(name='Free Keys', value=data["current"][2]["freeKeys"])
-        embed.append(em)
+        embeds.append(em)
 
         em = discord.Embed(color=utils.random_color())
         em.set_image(url=data["current"][3]["mapImageUrl"])
@@ -91,7 +91,7 @@ class BrawlStars:
         em.add_field(name='Slot Number', value=data["current"][3]["slot"])
         em.add_field(name='Map', value=data["current"][3]["mapName"])
         em.add_field(name='Free Keys', value=data["current"][3]["freeKeys"])
-        embed.append(em)
+        embeds.append(em)
 
         if ticketedEvent:
             em = discord.Embed(color=utils.random_color())
@@ -100,7 +100,7 @@ class BrawlStars:
             em.add_field(name='Slot Number', value=data["current"][4]["slot"])
             em.add_field(name='Map', value=data["current"][4]["mapName"])
             em.add_field(name='Free Keys', value=data["current"][4]["freeKeys"])
-            embed.append(em)
+            embeds.append(em)
 
         p_session = Paginator(ctx, footer=f'Made by Parzival#4148', pages=embeds)
         await p_session.run()
